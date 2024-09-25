@@ -1,0 +1,15 @@
+artifact_uri: file:///E:/MLFLOW%20End%20to%20End%20Deep%20Learning%20Project/Kidney-Disease-Classification-End-to-End-MLFLOW/mlruns/0/368fd0af3e17454da8c034b6943e3784/artifacts
+end_time: 1727257222875
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 368fd0af3e17454da8c034b6943e3784
+run_name: defiant-donkey-487
+run_uuid: 368fd0af3e17454da8c034b6943e3784
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727257215409
+status: 4
+tags: []
+user_id: muham

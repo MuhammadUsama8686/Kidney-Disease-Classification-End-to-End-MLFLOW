@@ -1,0 +1,15 @@
+artifact_uri: file:///E:/MLFLOW%20End%20to%20End%20Deep%20Learning%20Project/Kidney-Disease-Classification-End-to-End-MLFLOW/mlruns/0/48e76a0172a44cf88453f422b817699a/artifacts
+end_time: 1727255908950
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 48e76a0172a44cf88453f422b817699a
+run_name: delicate-croc-14
+run_uuid: 48e76a0172a44cf88453f422b817699a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1727255900910
+status: 4
+tags: []
+user_id: muham
