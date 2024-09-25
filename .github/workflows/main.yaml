@@ -26,42 +26,46 @@ jobs:
         run: echo "Running unit tests"
 
   build-and-push-zeabur-image:
-    name: Continuous Delivery to Zeabur
+    name: Continuous Delivery
     needs: integration
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Install Utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
+
       - name: Install Zeabur CLI
         run: |
-          curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-          sudo apt install -y nodejs
-          sudo npm install -g zeabur
+          curl -fsSL https://cli.zeabur.com/install.sh | bash
+          zeabur login --token ${{ secrets.ZEABUR_TOKEN }} # Assuming you have a Zeabur token secret
 
-      - name: Login to Zeabur
-        run: zeabur login --token ${{ secrets.ZEABUR_ACCESS_TOKEN }}
-
-      - name: Build Docker image
+      - name: Build and push image to Zeabur
         run: |
-          # Build the Docker image
-          docker build -t your-image-name .
+          # Build and push the Docker image to Zeabur
+          docker build -t kidney-disease-classification-end-to-end-mlflow:latest .
+          zeabur deploy --app kidney-disease-classification-end-to-end-mlflow --image kidney-disease-classification-end-to-end-mlflow:latest
 
-      - name: Push image to Zeabur
-        run: |
-          # Push the Docker image to Zeabur
-          zeabur push your-app-name:latest
-
-  deployment:
-    name: Deploy to Zeabur
+  Continuous-Deployment:
     needs: build-and-push-zeabur-image
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Login to Zeabur
-        run: zeabur login --token ${{ secrets.ZEABUR_ACCESS_TOKEN }}
+      - name: Install Zeabur CLI
+        run: |
+          curl -fsSL https://cli.zeabur.com/install.sh | bash
+          zeabur login --token ${{ secrets.ZEABUR_TOKEN }} # Assuming you have a Zeabur token secret
 
-      - name: Deploy the app to Zeabur
-        run: zeabur deploy your-app-name
+      - name: Deploy to Zeabur
+        run: |
+          # Deploy the image to Zeabur and run the container
+          zeabur deploy --app kidney-disease-classification-end-to-end-mlflow --image kidney-disease-classification-end-to-end-mlflow:latest
+
+      - name: Clean up unused Docker resources
+        run: |
+          docker system prune -f
